@@ -10,7 +10,13 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+        Debug.Log("Check: CameraControllerStart called");
+        offset = transform.position - player.transform.position;    
 
 	}
-	
+
+    void LateUpdate()
+    {
+        transform.position = player.transform.position + offset;
+    }
 }
