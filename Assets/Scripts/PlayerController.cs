@@ -8,7 +8,15 @@ public class PlayerController : MonoBehaviour
 {
 
     public float speed;
+
+    public float roundDuration;
+    private float timeElapsed;
+    private float timeLeft;
+
     public Text scoreText; //Store a reference to the UI Text component which will display the number of pickups collected.
+    public Text winText; //Store a reference to the UI Text component which will display the number of pickups collected.
+    public Text loseText; //Store a reference to the UI Text component which will display the number of pickups collected.
+    public Text timerText;
     private int score = 0;              //Integer to store the number of pickups collected so far.    void Start()
     private AudioSource audioSource;
 
@@ -22,8 +30,13 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        timeLeft = roundDuration;
         SetScoreText();
         audioSource = GetComponent<AudioSource>();
+
+        winText.enabled = false;
+        loseText.enabled = false;
+
 
     }
     void FixedUpdate()
@@ -34,6 +47,17 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<Rigidbody2D>().AddForce(movement * speed);
 
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
+        {
+            Time.timeScale = 0f;
+            loseText.enabled = true;
+        }
+        else
+        {
+
+            timerText.text = "Time left: " + ((int)timeLeft).ToString();
+        }
 
     }
 
@@ -45,6 +69,12 @@ public class PlayerController : MonoBehaviour
             score += 1;
             other.gameObject.SetActive(false);
             SetScoreText();
+
+            if (score == 5)
+            {
+                Time.timeScale = 0f;
+                winText.enabled = true;
+            }
         }
 
     }
