@@ -70,11 +70,12 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             SetScoreText();
 
+            /*
             if (score == 5)
             {
                 Time.timeScale = 0f;
                 winText.enabled = true;
-            }
+            }*/
         }
 
     }
